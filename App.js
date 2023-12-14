@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
 
 const zitate = [
   {text: "hallo", autor: "ich"},
@@ -8,8 +9,10 @@ const zitate = [
 ]
 
 export default function App() {
-
-  const zitat = zitate[0]
+  const useStates = useState(0)
+  const index = useStates[0]
+  console.log(useStates)
+  const zitat = zitate[index]
 
   return (
     <View style={styles.container}>
