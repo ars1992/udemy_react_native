@@ -5,8 +5,8 @@ export default function neuesZitat({ visible, onCancel }) {
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-                <TextInput placeholder="Zitat" style={[styles.input, styles.inputZitat]}></TextInput>
-                <TextInput placeholder="Autor" style={styles.input}></TextInput>
+                <TextInput placeholder="Zitat" style={[styles.input, styles.inputZitat]} multiline={true}></TextInput>
+                <TextInput placeholder="Autor" style={styles.input} returnKeyType="done" onSubmitEditing={()=> alert(244)}></TextInput>
                 <Pressable style={[styles.button]} onPress={onCancel}>
                     <Text>abbrechen</Text>
                 </Pressable>
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     },
     inputZitat:{
         height: 200,
+        textAlignVertical: "top",
     },
     button: {
         borderWidth: 1,
