@@ -9,16 +9,21 @@ const zitate = [
 ]
 
 export default function App() {
-  const useStates = useState(0)
-  const index = useStates[0]
-  console.log(useStates)
+
+  const [index, setIndex] = useState(0)
   const zitat = zitate[index]
+  // const useStates = useState(0)
+  // const index = useStates[0]
+  // console.log(useStates)
+  // const zitat = zitate[index]
+  // const setIndex = useStates[1]
 
   return (
     <View style={styles.container}>
       <Text>{zitat.text}</Text>
       <Text>&mdash; {zitat.autor}</Text>
-      <Button title='next' onPress={() => alert(zitat.text)}></Button>
+      <Button title='next' onPress={() => setIndex((index + 1) % zitate.length)}></Button>
+      <Button title='back' onPress={() => setIndex(index == 0 ? zitate.length - 1: index - 1)}></Button>
       <StatusBar style="auto" />
     </View>
   );
