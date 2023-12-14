@@ -22,9 +22,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Zitate />
-      <Text>{zitat.text}</Text>
-      <Text>&mdash; {zitat.autor}</Text>
+      <Zitate text={zitat.text} autor={zitat.autor}/>
+
       <Button title='next' onPress={() => setIndex((index + 1) % zitate.length)}></Button>
       <Button title='back' onPress={() => setIndex(index == 0 ? zitate.length - 1: index - 1)}></Button>
       <StatusBar style="auto" />
