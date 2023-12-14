@@ -1,16 +1,16 @@
-import { Modal, Pressable, TextInput, Text, StyleSheet, View } from "react-native";
+import { Modal, Pressable, TextInput, Text, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 
 
 export default function neuesZitat({ visible, onCancel }) {
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
-            <View style={styles.container}>
-                <TextInput placeholder="Zitat" style={styles.input}></TextInput>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+                <TextInput placeholder="Zitat" style={[styles.input, styles.inputZitat]}></TextInput>
                 <TextInput placeholder="Autor" style={styles.input}></TextInput>
-                <Pressable style={[styles.button, styles.abbbrechen]} onPress={onCancel}>
+                <Pressable style={[styles.button]} onPress={onCancel}>
                     <Text>abbrechen</Text>
                 </Pressable>
-            </View>
+            </KeyboardAvoidingView>
         </Modal>
     )
 }
@@ -24,21 +24,20 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 2,
         borderRadius: 5,
-        width: "80%",
+        width: "90%",
         padding: 10,
         marginBottom: 10,
         fontSize: 25,
 
     },
+    inputZitat:{
+        height: 200,
+    },
     button: {
-        position: 'absolute',
-        bottom: 50,
         borderWidth: 1,
         borderRadius: 10,
         backgroundColor: "cornflowerblue",
         padding: 10,
     },
-    abbbrechen: {
-        right: 20,
-    },
+    
 })
