@@ -1,12 +1,25 @@
 import { Modal, Pressable, TextInput, Text, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
-
+import { useState } from "react";
 
 export default function neuesZitat({ visible, onCancel }) {
+    const [zitat, setZitat] = useState(null)
+    const [autor, setAutor] = useState(null)
+
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-                <TextInput placeholder="Zitat" style={[styles.input, styles.inputZitat]} multiline={true}></TextInput>
-                <TextInput placeholder="Autor" style={styles.input} returnKeyType="done" onSubmitEditing={()=> alert(244)}></TextInput>
+                <TextInput
+                    placeholder="Zitat" 
+                    style={[styles.input, styles.inputZitat]} 
+                    multiline={true} 
+                    onChangeText={setZitat}>
+                </TextInput>
+                <TextInput
+                    placeholder="Autor" style={styles.input} 
+                    returnKeyType="done" 
+                    onChangeText={setAutor}
+                    onSubmitEditing={() => alert(`${zitat} - ${autor}`)}>
+                </TextInput>
                 <Pressable style={[styles.button]} onPress={onCancel}>
                     <Text>abbrechen</Text>
                 </Pressable>
@@ -30,7 +43,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
 
     },
-    inputZitat:{
+    inputZitat: {
         height: 200,
         textAlignVertical: "top",
     },
@@ -40,5 +53,5 @@ const styles = StyleSheet.create({
         backgroundColor: "cornflowerblue",
         padding: 10,
     },
-    
+
 })
