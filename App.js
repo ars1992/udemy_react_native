@@ -19,8 +19,12 @@ export default function App() {
     <View style={styles.container}>
       <Zitate text={zitat.text} autor={zitat.autor}/>
 
-      <Pressable onPress={() => setIndex((index + 1) % zitate.length)}><Text>next</Text></Pressable>
-      <Pressable onPress={() => setIndex(index == 0 ? zitate.length - 1: index - 1)}><Text>back</Text></Pressable>
+      <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
+        <Text>next</Text>
+      </Pressable>
+      <Pressable style={[styles.button, styles.back]} onPress={() => setIndex(index == 0 ? zitate.length - 1: index - 1)}>
+        <Text>back</Text>
+      </Pressable>
       <StatusBar style="auto" />
     </View>
   );
@@ -33,4 +37,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    position: 'absolute',
+    bottom: 50,
+  },
+  next: {
+    left: 20,
+  },
+  back: {
+    right: 20,
+  }
 });
