@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 36,
         marginBottom: 4,
+        textAlign: "center",
     },
     red: {
         color: "red"
     },
     autor: {
-        fontStyle: "italic"
+        fontStyle: "italic",
+        textAlign: "right",
     }
 })
