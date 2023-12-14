@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
+import Zitate from './components/Zitate'
+
 
 const zitate = [
   {text: "hallo", autor: "ich"},
@@ -20,6 +22,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Zitate />
       <Text>{zitat.text}</Text>
       <Text>&mdash; {zitat.autor}</Text>
       <Button title='next' onPress={() => setIndex((index + 1) % zitate.length)}></Button>
