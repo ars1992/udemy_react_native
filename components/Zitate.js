@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 export default function showZitat({text, autor}){
     return ( 
@@ -9,7 +9,7 @@ export default function showZitat({text, autor}){
     )
 }
 
-const styles = {
+const styles = StyleSheet.create({
     text: {fontSize: 36},
     autor: {fontStyle: "italic"}
-}
+})
