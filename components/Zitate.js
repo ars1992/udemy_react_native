@@ -3,8 +3,13 @@ import { Text } from "react-native";
 export default function showZitat({text, autor}){
     return ( 
         <>
-            <Text style={{fontSize: 36}}>{text}</Text>
-            <Text style={{fontStyle: "italic"}}>-- {autor}</Text>
+            <Text style={styles.text}>{text}</Text>
+            <Text style={styles.autor}>-- {autor}</Text>
         </> 
     )
+}
+
+const styles = {
+    text: {fontSize: 36},
+    autor: {fontStyle: "italic"}
 }
