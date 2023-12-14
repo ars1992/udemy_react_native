@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
-import Zitate from './components/Zitate'
+import Zitate from './components/Zitate';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const zitate = [
@@ -17,8 +18,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Pressable style={[styles.new]} onPress={()=>alert("neu")}>
+        <Ionicons name="add-circle" size={36} color="cornflowerblue" />
+      </Pressable>
       <Zitate text={zitat.text} autor={zitat.autor}/>
-
       <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
         <Text style={styles.buttonText}>next</Text>
       </Pressable>
@@ -53,5 +56,11 @@ const styles = StyleSheet.create({
   },
   back: {
     right: 20,
+  },
+  new: {
+    position: "absolute",
+    top: 60,
+    bottom: null,
+    right: 20
   }
 });
