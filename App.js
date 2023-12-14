@@ -1,7 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
+const zitate = [
+  {text: "hallo", autor: "ich"},
+  {text: "apple", autor: "du"},
+  {text: "welt", autor: "wir"},
+]
+
 export default function App() {
+
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
