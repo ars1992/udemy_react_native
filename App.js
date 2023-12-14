@@ -15,14 +15,15 @@ const zitate = [
 export default function App() {
 
   const [index, setIndex] = useState(0)
+  const [isShowDialog, setShowDialog] = useState(false)
   const zitat = zitate[index]
 
   return (
     <View style={styles.container}>
-      <Pressable style={[styles.new]} onPress={()=>alert("neu")}>
+      <Pressable style={[styles.new]} onPress={()=>setShowDialog(isShowDialog ? false : true)}>
         <Ionicons name="add-circle" size={36} color="cornflowerblue" />
       </Pressable>
-      <NeueZitate visible={true}></NeueZitate>
+      <NeueZitate visible={isShowDialog}></NeueZitate>
       <Zitate text={zitat.text} autor={zitat.autor}/>
       <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
         <Text style={styles.buttonText}>next</Text>
