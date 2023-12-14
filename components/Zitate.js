@@ -1,10 +1,10 @@
 import { Text } from "react-native";
 
-export default function showZitat(props){
+export default function showZitat({text, autor}){
     return ( 
         <>
-            <Text>{props.text}</Text>
-            <Text>-- {props.autor}</Text>
+            <Text>{text}</Text>
+            <Text>-- {autor}</Text>
         </> 
     )
 }
