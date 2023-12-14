@@ -1,13 +1,23 @@
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, Text, StyleSheet, View } from "react-native";
 
 
 export default function neuesZitat({ visible, onCancel }) {
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
-            <Text>hallo neu</Text>
-            <Pressable onPress={onCancel}>
-                <Text>abrechen</Text>
-            </Pressable>
+            <View style={styles.container}>
+                <Text>hallo neu</Text>
+                <Pressable onPress={onCancel}>
+                    <Text>abbrechen</Text>
+                </Pressable>
+            </View>
         </Modal>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+})
