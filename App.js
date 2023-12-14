@@ -18,12 +18,18 @@ export default function App() {
   const [isShowDialog, setShowDialog] = useState(false)
   const zitat = zitate[index]
 
+  let colorButton = "red" 
+
+  if(isShowDialog){
+    colorButton = "cornflowerblue"
+  } 
+
   return (
     <View style={styles.container}>
       <Pressable style={[styles.new]} onPress={()=>setShowDialog(isShowDialog ? false : true)}>
-        <Ionicons name="add-circle" size={36} color="cornflowerblue" />
+        <Ionicons name="add-circle" size={36} color={colorButton} />
       </Pressable>
-      <NeueZitate visible={isShowDialog}></NeueZitate>
+      <NeueZitate visible={isShowDialog} onCancel={()=> setShowDialog(false)}></NeueZitate>
       <Zitate text={zitat.text} autor={zitat.autor}/>
       <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
         <Text style={styles.buttonText}>next</Text>
