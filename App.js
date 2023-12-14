@@ -9,11 +9,13 @@ const zitate = [
 
 export default function App() {
 
+  const zitat = zitate[0]
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>-- ARS</Text>
-      <Button title='next' onPress={() => alert("ok")}></Button>
+      <Text>{zitat.text}</Text>
+      <Text>&mdash; {zitat.autor}</Text>
+      <Button title='next' onPress={() => alert(zitat.text)}></Button>
       <StatusBar style="auto" />
     </View>
   );
