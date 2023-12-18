@@ -19,6 +19,13 @@ export default function App() {
   const [isShowDialog, setShowDialog] = useState(false)
   const zitat = zitate[index]
 
+  function addZitatToZitateData(text, autor) {
+      setShowDialog(false)
+      const neueZitateData = [...zitate, { text, autor }]
+      setZitate(neueZitateData)
+      setIndex(neueZitateData.length - 1)
+  }
+
   return (
     <View style={styles.container}>
 
@@ -29,11 +36,7 @@ export default function App() {
       <NeueZitate
         visible={isShowDialog}
         onCancel={() => setShowDialog(false)}
-        onSave={(zitat, autor) => {
-          setShowDialog(false)
-          const neueZitate = [...zitate, {text: zitat, autor: autor}]
-          setZitate(neueZitate)
-          }}>
+        onSave={addZitatToZitateData}>
       </NeueZitate>
       <Zitate text={zitat.text} autor={zitat.autor} />
 
