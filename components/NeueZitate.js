@@ -1,7 +1,7 @@
 import { Modal, Pressable, TextInput, Text, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 import { useState } from "react";
 
-export default function neuesZitat({ visible, onCancel }) {
+export default function neuesZitat({ visible, onCancel, onSave }) {
     const [zitat, setZitat] = useState(null)
     const [autor, setAutor] = useState(null)
 
@@ -9,16 +9,17 @@ export default function neuesZitat({ visible, onCancel }) {
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
                 <TextInput
-                    placeholder="Zitat" 
+                    placeholder="Zitate" 
                     style={[styles.input, styles.inputZitat]} 
                     multiline={true} 
                     onChangeText={setZitat}>
                 </TextInput>
                 <TextInput
-                    placeholder="Autor" style={styles.input} 
+                    placeholder="Autor" 
+                    style={styles.input} 
                     returnKeyType="done" 
                     onChangeText={setAutor}
-                    onSubmitEditing={() => alert(`${zitat} - ${autor}`)}>
+                    onSubmitEditing={() => onSave(zitat, autor)}>
                 </TextInput>
                 <Pressable style={[styles.button]} onPress={onCancel}>
                     <Text>abbrechen</Text>

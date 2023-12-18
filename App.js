@@ -6,31 +6,45 @@ import NeueZitate from './components/NeueZitate'
 import { Ionicons } from '@expo/vector-icons';
 
 
-const zitate = [
-  {text: "hallo", autor: "ich"},
-  {text: "apple", autor: "du"},
-  {text: "welt", autor: "wir"},
+const zitateData = [
+  { text: "hallo", autor: "ich" },
+  { text: "jeanette", autor: "liebe" },
+  { text: "was möchtest du zu Weihnachten ?", autor: "dich" },
 ]
 
 export default function App() {
 
   const [index, setIndex] = useState(0)
+  const [zitate, setZitate] = useState(zitateData)
   const [isShowDialog, setShowDialog] = useState(false)
   const zitat = zitate[index]
 
   return (
     <View style={styles.container}>
-      <Pressable style={[styles.new]} onPress={()=> setShowDialog(true)}>
+
+      <Pressable style={[styles.new]} onPress={() => setShowDialog(true)}>
         <Ionicons name="add-circle" size={36} color="cornflowerblue" />
       </Pressable>
-      <NeueZitate visible={isShowDialog} onCancel={()=> setShowDialog(false)}></NeueZitate>
-      <Zitate text={zitat.text} autor={zitat.autor}/>
+
+      <NeueZitate
+        visible={isShowDialog}
+        onCancel={() => setShowDialog(false)}
+        onSave={(zitat, autor) => {
+          setShowDialog(false)
+          const neueZitate = [...zitate, {text: zitat, autor: autor}]
+          setZitate(neueZitate)
+          }}>
+      </NeueZitate>
+      <Zitate text={zitat.text} autor={zitat.autor} />
+
       <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
         <Text style={styles.buttonText}>next</Text>
       </Pressable>
-      <Pressable style={[styles.button, styles.back]} onPress={() => setIndex(index == 0 ? zitate.length - 1: index - 1)}>
+
+      <Pressable style={[styles.button, styles.back]} onPress={() => setIndex(index == 0 ? zitate.length - 1 : index - 1)}>
         <Text style={styles.buttonText}>back</Text>
       </Pressable>
+
       <StatusBar style="auto" />
     </View>
   );
