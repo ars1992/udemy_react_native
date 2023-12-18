@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Zitate from './components/Zitate';
 import NeueZitate from './components/NeueZitate';
 import Bigbutton from './components/Bigbutton'
+import Iconbutton from './components/Iconbutton'
 import { Ionicons } from '@expo/vector-icons';
 
 
@@ -30,9 +31,11 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-      <Pressable style={[styles.new]} onPress={() => setShowDialog(true)}>
-        <Ionicons name="add-circle" size={36} color="cornflowerblue" />
-      </Pressable>
+      <Iconbutton 
+        style={styles.new} 
+        onPress={() => setShowDialog(true)}
+        icon="add-circle"/>
+      
 
       <NeueZitate
         visible={isShowDialog}
@@ -71,7 +74,6 @@ const styles = StyleSheet.create({
   new: {
     position: "absolute",
     top: 60,
-    bottom: null,
     right: 20
   }
 });

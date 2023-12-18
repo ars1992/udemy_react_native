@@ -1,6 +1,7 @@
-import { Modal, Pressable, TextInput, Text, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
+import { Modal, TextInput, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 import { useState } from "react";
 import Bigbutton from "./Bigbutton"
+import Iconbutton from "./Iconbutton"
 
 export default function neuesZitat({ visible, onCancel, onSave }) {
     const [zitat, setZitat] = useState(null)
@@ -9,12 +10,19 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+                <Iconbutton
+                    onPress={onCancel}
+                    style={styles.abbrechenButton}
+                    icon="chevron-back-circle-sharp">
+                </Iconbutton>
+
                 <TextInput
                     placeholder="Zitate"
                     style={[styles.input, styles.inputZitat]}
                     multiline={true}
                     onChangeText={setZitat}>
                 </TextInput>
+
                 <TextInput
                     placeholder="Autor"
                     style={styles.input}
@@ -22,8 +30,13 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
                     onChangeText={setAutor}
                     onSubmitEditing={() => onSave(zitat, autor)}>
                 </TextInput>
-                <Bigbutton style={[styles.button, styles.speichernButton]} titel={"Speichern"} onPress={() => onSave(zitat, autor)}></Bigbutton>
-                <Bigbutton style={[styles.button, styles.abbrechenButton]} titel={"Abbrechen"} onPress={onCancel}></Bigbutton>
+
+                <Bigbutton
+                    style={[styles.button,]}
+                    titel={"Speichern"}
+                    onPress={() => onSave(zitat, autor)}>
+                </Bigbutton>
+
             </KeyboardAvoidingView>
         </Modal>
     )
@@ -42,7 +55,6 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         fontSize: 25,
-
     },
     inputZitat: {
         height: 200,
@@ -53,9 +65,8 @@ const styles = StyleSheet.create({
         bottom: 50,
     },
     abbrechenButton: {
-        right: 20,
-    },
-    speichernButton: {
+        position: "absolute",
+        top: 60,
         left: 20,
-    }
+    },
 })
