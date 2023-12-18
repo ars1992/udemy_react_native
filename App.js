@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 import Zitate from './components/Zitate';
-import NeueZitate from './components/NeueZitate'
+import NeueZitate from './components/NeueZitate';
+import Bigbutton from './components/Bigbutton'
 import { Ionicons } from '@expo/vector-icons';
 
 
@@ -20,10 +21,10 @@ export default function App() {
   const zitat = zitate[index]
 
   function addZitatToZitateData(text, autor) {
-      setShowDialog(false)
-      const neueZitateData = [...zitate, { text, autor }]
-      setZitate(neueZitateData)
-      setIndex(neueZitateData.length - 1)
+    setShowDialog(false)
+    const neueZitateData = [...zitate, { text, autor }]
+    setZitate(neueZitateData)
+    setIndex(neueZitateData.length - 1)
   }
 
   return (
@@ -40,13 +41,10 @@ export default function App() {
       </NeueZitate>
       <Zitate text={zitat.text} autor={zitat.autor} />
 
-      <Pressable style={[styles.button, styles.next]} onPress={() => setIndex((index + 1) % zitate.length)}>
-        <Text style={styles.buttonText}>next</Text>
-      </Pressable>
-
-      <Pressable style={[styles.button, styles.back]} onPress={() => setIndex(index == 0 ? zitate.length - 1 : index - 1)}>
-        <Text style={styles.buttonText}>back</Text>
-      </Pressable>
+      <Bigbutton style={[styles.button, styles.next]} titel={"next"}
+        onPress={() => setIndex((index + 1) % zitate.length)}></Bigbutton>
+      <Bigbutton style={[styles.button, styles.back]} titel={"back"}
+        onPress={() => setIndex(index == 0 ? zitate.length - 1 : index - 1)}></Bigbutton>
 
       <StatusBar style="auto" />
     </View>
@@ -63,13 +61,6 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     bottom: 50,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: "cornflowerblue",
-    padding: 10,
-  },
-  buttonText: {
-    fontSize: 25,
   },
   next: {
     left: 20,

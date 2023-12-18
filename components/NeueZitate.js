@@ -1,5 +1,6 @@
 import { Modal, Pressable, TextInput, Text, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 import { useState } from "react";
+import Bigbutton from "./Bigbutton"
 
 export default function neuesZitat({ visible, onCancel, onSave }) {
     const [zitat, setZitat] = useState(null)
@@ -9,21 +10,20 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
                 <TextInput
-                    placeholder="Zitate" 
-                    style={[styles.input, styles.inputZitat]} 
-                    multiline={true} 
+                    placeholder="Zitate"
+                    style={[styles.input, styles.inputZitat]}
+                    multiline={true}
                     onChangeText={setZitat}>
                 </TextInput>
                 <TextInput
-                    placeholder="Autor" 
-                    style={styles.input} 
-                    returnKeyType="done" 
+                    placeholder="Autor"
+                    style={styles.input}
+                    returnKeyType="done"
                     onChangeText={setAutor}
                     onSubmitEditing={() => onSave(zitat, autor)}>
                 </TextInput>
-                <Pressable style={[styles.button]} onPress={onCancel}>
-                    <Text>abbrechen</Text>
-                </Pressable>
+                <Bigbutton style={[styles.button, styles.speichernButton]} titel={"Speichern"} onPress={() => onSave(zitat, autor)}></Bigbutton>
+                <Bigbutton style={[styles.button, styles.abbrechenButton]} titel={"Abbrechen"} onPress={onCancel}></Bigbutton>
             </KeyboardAvoidingView>
         </Modal>
     )
@@ -49,10 +49,13 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
     },
     button: {
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: "cornflowerblue",
-        padding: 10,
+        position: 'absolute',
+        bottom: 50,
     },
-
+    abbrechenButton: {
+        right: 20,
+    },
+    speichernButton: {
+        left: 20,
+    }
 })
