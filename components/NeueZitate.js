@@ -7,11 +7,18 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
     const [zitat, setZitat] = useState(null)
     const [autor, setAutor] = useState(null)
 
+    function abbruchVerarbeiten(){
+        onCancel()
+        setZitat(null)
+        setAutor(null)
+    }
+
+
     return (
         <Modal visible={visible} onRequestClose={onCancel}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
                 <Iconbutton
-                    onPress={onCancel}
+                    onPress={abbruchVerarbeiten}
                     style={styles.abbrechenButton}
                     icon="chevron-back-circle-sharp">
                 </Iconbutton>
