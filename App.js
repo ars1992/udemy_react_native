@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Zitate from './components/Zitate';
@@ -23,6 +23,10 @@ export default function App() {
   const [isShowDialog, setShowDialog] = useState(false)
   const zitat = zitate[index]
 
+  useEffect(() => {
+    loadZitate()
+  }, [])
+
   function addZitatToZitateData(text, autor) {
     setShowDialog(false)
     const neueZitateData = [...zitate, { text, autor }]
@@ -39,10 +43,9 @@ export default function App() {
     let zitateAusSpeicher = await AsyncStorage.getItem("Zitate")
     if (zitateAusSpeicher !== null){
       zitateAusSpeicher = JSON.parse(zitateAusSpeicher)
+      setZitate(zitateAusSpeicher)
     }
   }
-
-  loadZitate()
 
   return (
     <View style={styles.container}>
