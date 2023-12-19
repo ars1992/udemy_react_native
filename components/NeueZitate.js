@@ -4,13 +4,29 @@ import Bigbutton from "./Bigbutton"
 import Iconbutton from "./Iconbutton"
 
 export default function neuesZitat({ visible, onCancel, onSave }) {
-    const [zitat, setZitat] = useState(null)
-    const [autor, setAutor] = useState(null)
+    const [zitat, setZitat] = useState("")
+    const [autor, setAutor] = useState("")
+
+    function stateZurückSetzen(){
+        setZitat("")
+        setAutor("")
+    }
 
     function abbruchVerarbeiten(){
         onCancel()
-        setZitat(null)
-        setAutor(null)
+        stateZurückSetzen()
+    }
+
+    function speichereZitat(){
+        const newZitat = zitat.trim()
+        const newAutor = autor.trim()
+
+        if(newZitat === "" || newAutor === ""){
+            alert("Zitat und Autor dürfen nicht leer sein!")
+            return
+        }
+        onSave(newZitat, newAutor)
+        stateZurückSetzen()
     }
 
 
@@ -24,7 +40,7 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
                 </Iconbutton>
 
                 <TextInput
-                    placeholder="Zitate"
+                    placeholder="Zitat"
                     style={[styles.input, styles.inputZitat]}
                     multiline={true}
                     onChangeText={setZitat}>
@@ -35,13 +51,12 @@ export default function neuesZitat({ visible, onCancel, onSave }) {
                     style={styles.input}
                     returnKeyType="done"
                     onChangeText={setAutor}
-                    onSubmitEditing={() => onSave(zitat, autor)}>
+                    onSubmitEditing={speichereZitat}>
                 </TextInput>
 
                 <Bigbutton
-                    style={[styles.button,]}
                     titel={"Speichern"}
-                    onPress={() => onSave(zitat, autor)}>
+                    onPress={speichereZitat}>
                 </Bigbutton>
 
             </KeyboardAvoidingView>
@@ -66,10 +81,6 @@ const styles = StyleSheet.create({
     inputZitat: {
         height: 200,
         textAlignVertical: "top",
-    },
-    button: {
-        position: 'absolute',
-        bottom: 50,
     },
     abbrechenButton: {
         position: "absolute",
