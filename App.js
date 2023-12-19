@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Zitate from './components/Zitate';
 import NeueZitate from './components/NeueZitate';
 import Bigbutton from './components/Bigbutton'
 import Iconbutton from './components/Iconbutton'
-import { Ionicons } from '@expo/vector-icons';
+
 
 
 const zitateData = [
@@ -26,7 +28,21 @@ export default function App() {
     const neueZitateData = [...zitate, { text, autor }]
     setZitate(neueZitateData)
     setIndex(neueZitateData.length - 1)
+    saveZitate(neueZitateData)
   }
+
+  function saveZitate(zitate){
+    AsyncStorage.setItem("Zitate", JSON.stringify(zitate))
+  }
+
+  async function loadZitate(){
+    let zitateAusSpeicher = await AsyncStorage.getItem("Zitate")
+    if (zitateAusSpeicher !== null){
+      zitateAusSpeicher = JSON.parse(zitateAusSpeicher)
+    }
+  }
+
+  loadZitate()
 
   return (
     <View style={styles.container}>
