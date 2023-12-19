@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -43,6 +43,20 @@ export default function App() {
     saveZitate(neueZitateData)
   }
 
+  function createDeleteAlert(){
+    Alert.alert("Löschen", "Möchten Sie das Zitat löschen", [
+      {
+        text: "Abbrechen",
+        style: "cancel"
+      },
+      {
+        text: "Löschen",
+        style: "destructive",
+        onPress: removeZitatFromZitateData,
+      }
+    ])
+  }
+
   function saveZitate(zitate) {
     AsyncStorage.setItem("Zitate", JSON.stringify(zitate))
   }
@@ -65,7 +79,7 @@ export default function App() {
 
       <Iconbutton
         style={styles.delete}
-        onPress={() => removeZitatFromZitateData()}
+        onPress={() => createDeleteAlert()}
         icon="md-remove-circle" />
 
 
