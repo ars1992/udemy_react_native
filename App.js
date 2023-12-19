@@ -35,13 +35,21 @@ export default function App() {
     saveZitate(neueZitateData)
   }
 
-  function saveZitate(zitate){
+  function removeZitatFromZitateData() {
+    const neueZitateData = [...zitate]
+    neueZitateData.splice(index, 1)
+    setZitate(neueZitateData)
+    setIndex(0)
+    saveZitate(neueZitateData)
+  }
+
+  function saveZitate(zitate) {
     AsyncStorage.setItem("Zitate", JSON.stringify(zitate))
   }
 
-  async function loadZitate(){
+  async function loadZitate() {
     let zitateAusSpeicher = await AsyncStorage.getItem("Zitate")
-    if (zitateAusSpeicher !== null){
+    if (zitateAusSpeicher !== null) {
       zitateAusSpeicher = JSON.parse(zitateAusSpeicher)
       setZitate(zitateAusSpeicher)
     }
@@ -50,11 +58,16 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-      <Iconbutton 
-        style={styles.new} 
+      <Iconbutton
+        style={styles.new}
         onPress={() => setShowDialog(true)}
-        icon="add-circle"/>
-      
+        icon="add-circle" />
+
+      <Iconbutton
+        style={styles.delete}
+        onPress={() => removeZitatFromZitateData()}
+        icon="md-remove-circle" />
+
 
       <NeueZitate
         visible={isShowDialog}
@@ -94,5 +107,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 60,
     right: 20
+  },
+  delete: {
+    position: "absolute",
+    top: 60,
+    left: 20
   }
 });
