@@ -34,23 +34,23 @@ export default function App() {
     if (zitate.length <= 0) {
       return <Text style={styles.keineZitate}>Keine Zitate</Text>
     }
-    return <Zitate text={zitat.text} autor={zitat.autor} />
+    return <Zitate text={zitat.zitat} autor={zitat.autor} />
   }
 
-  function addZitatToZitateData(text, autor) {
+  function addZitatToZitateData(zitat, autor) {
     setShowDialog(false)
-    const neueZitateData = [...zitate, { text, autor }]
+    const neueZitateData = [...zitate, { zitat, autor }]
     setZitate(neueZitateData)
     setIndex(neueZitateData.length - 1)
-    saveZitate(neueZitateData)
+    saveZitate(zitat, autor, neueZitateData)
   }
 
   function removeZitatFromZitateData() {
     const neueZitateData = [...zitate]
     neueZitateData.splice(index, 1)
-    setIndex(0)
     setZitate(neueZitateData)
-    saveZitate(neueZitateData)
+    setIndex(0)
+    deleteZitate()
   }
 
   function createDeleteAlert() {
@@ -67,16 +67,32 @@ export default function App() {
     ])
   }
 
-  function saveZitate(zitate) {
-    // AsyncStorage.setItem("Zitate", JSON.stringify(zitate))
+  function saveZitate(zitat, autor, neueZitateData) {
+    db.transaction((tx) => (
+      tx.executeSql(
+        'INSERT INTO zitate (zitat, autor) VALUES (?, ?);', 
+        [zitat, autor], 
+        (_, result) => {
+          neueZitateData[neueZitateData.length - 1].id = result.insertId
+          setZitate(neueZitateData)
+      })
+    ))
   }
 
-  async function loadZitate() {
-    // let zitateAusSpeicher = await AsyncStorage.getItem("Zitate")
-    if (zitateAusSpeicher !== null) {
-      zitateAusSpeicher = JSON.parse(zitateAusSpeicher)
-      setZitate(zitateAusSpeicher)
-    }
+  function loadZitate() {
+    db.transaction((tx) => (
+      tx.executeSql('SELECT * FROM zitate;', [], (_, result) => {
+        setZitate(result.rows._array)
+      })
+    ))
+  }
+
+  function deleteZitate() {
+    const id = zitate[index].id
+    db.transaction((tx) => (
+      tx.executeSql('DELETE FROM zitate WHERE id = ?;', [id])
+      )
+    )
   }
 
   return (
