@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from "firebase/firestore"
+import { addDoc, collection, getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCpesPz-cceB5PvF_XpN4KrMlF0WqyQ-Cs",
@@ -17,6 +17,10 @@ export default class Firebase {
     static init(){
         const app = initializeApp(firebaseConfig)
         Firebase.db = getFirestore(app)
-        
+    }
+
+    static async saveZitat(zitat, autor){
+        const docRef = await addDoc(collection(Firebase.db, "zitate"), {zitat, autor})
+        return docRef.id
     }
 }

@@ -1,15 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SQLite from 'expo-sqlite';
 
 import Zitate from './components/Zitate';
 import NeueZitate from './components/NeueZitate';
 import Bigbutton from './components/Bigbutton'
 import Iconbutton from './components/Iconbutton'
+import Firebase from './js/Firebase';
 
-const db = SQLite.openDatabase("zitate.db")
 
 export default function App() {
 
@@ -18,18 +16,11 @@ export default function App() {
   const [isShowDialog, setShowDialog] = useState(false)
 
   useEffect(() => {
-    initDB()
+    Firebase.init()
     loadZitate()
   }, [])
 
-  function initDB() {
-    db.transaction((tx) => tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS zitate (id INTEGER PRIMARY KEY NOT NULL, zitat TEXT, autor TEXT);'
-      )
-    )
-  }
-
-  function setZitatContent() {
+  function renderZitatContent() {
     const zitat = zitate[index]
     if (zitate.length <= 0) {
       return <Text style={styles.keineZitate}>Keine Zitate</Text>
@@ -42,7 +33,7 @@ export default function App() {
     const neueZitateData = [...zitate, { zitat, autor }]
     setZitate(neueZitateData)
     setIndex(neueZitateData.length - 1)
-    saveZitate(zitat, autor, neueZitateData)
+    saveZitat(zitat, autor, neueZitateData)
   }
 
   function removeZitatFromZitateData() {
@@ -67,24 +58,14 @@ export default function App() {
     ])
   }
 
-  function saveZitate(zitat, autor, neueZitateData) {
-    db.transaction((tx) => (
-      tx.executeSql(
-        'INSERT INTO zitate (zitat, autor) VALUES (?, ?);', 
-        [zitat, autor], 
-        (_, result) => {
-          neueZitateData[neueZitateData.length - 1].id = result.insertId
-          setZitate(neueZitateData)
-      })
-    ))
+  async function saveZitat(zitat, autor, neueZitateData) {
+    const id = await Firebase.saveZitat(zitat, autor)
+    neueZitateData[neueZitateData.length - 1] = id
+    setZitate(neueZitateData)
   }
 
   function loadZitate() {
-    db.transaction((tx) => (
-      tx.executeSql('SELECT * FROM zitate;', [], (_, result) => {
-        setZitate(result.rows._array)
-      })
-    ))
+    
   }
 
   function deleteZitate() {
@@ -116,7 +97,7 @@ export default function App() {
         onSave={addZitatToZitateData}>
       </NeueZitate>
 
-      {setZitatContent()}
+      {renderZitatContent()}
 
       {zitate.length <= 1 ? null : (
         <>
