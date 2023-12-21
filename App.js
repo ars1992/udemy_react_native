@@ -18,8 +18,16 @@ export default function App() {
   const [isShowDialog, setShowDialog] = useState(false)
 
   useEffect(() => {
+    initDB()
     loadZitate()
   }, [])
+
+  function initDB() {
+    db.transaction((tx) => tx.executeSql(
+      'CREATE TABLE IF NOT EXISTS zitate (id INTEGER PRIMARY KEY NOT NULL, zitat TEXT, autor TEXT);'
+      )
+    )
+  }
 
   function setZitatContent() {
     const zitat = zitate[index]
