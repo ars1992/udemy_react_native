@@ -2,12 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SQLite from 'expo-sqlite';
 
 import Zitate from './components/Zitate';
 import NeueZitate from './components/NeueZitate';
 import Bigbutton from './components/Bigbutton'
 import Iconbutton from './components/Iconbutton'
 
+const db = SQLite.openDatabase("zitate.db")
 
 export default function App() {
 
