@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { addDoc, collection, getFirestore } from "firebase/firestore"
+import { addDoc, collection, getFirestore, getDocs, doc, deleteDoc } from "firebase/firestore"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCpesPz-cceB5PvF_XpN4KrMlF0WqyQ-Cs",
@@ -13,6 +13,7 @@ const firebaseConfig = {
 export default class Firebase {
 
     static db
+    static dbName = "zitate"
 
     static init(){
         const app = initializeApp(firebaseConfig)
@@ -20,7 +21,24 @@ export default class Firebase {
     }
 
     static async saveZitat(zitat, autor){
-        const docRef = await addDoc(collection(Firebase.db, "zitate"), {zitat, autor})
+        const docRef = await addDoc(collection(Firebase.db, Firebase.dbName), {zitat, autor})
         return docRef.id
+    }
+
+    static async getZitate(){
+        const zitate = []
+        const querySnapshot = await getDocs(collection(Firebase.db, Firebase.dbName))
+        querySnapshot.forEach((zitat) => {
+            zitate.push({
+                id: zitat.id,
+                zitat: zitat.data().zitat,
+                autor: zitat.data().autor,
+            })
+        })
+        return zitate
+    }
+
+    static removeZitat(id){
+        deleteDoc(doc(Firebase.db, Firebase.dbName, id))
     }
 }

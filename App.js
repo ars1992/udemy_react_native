@@ -41,7 +41,7 @@ export default function App() {
     neueZitateData.splice(index, 1)
     setZitate(neueZitateData)
     setIndex(0)
-    deleteZitate()
+    removeZitat()
   }
 
   function createDeleteAlert() {
@@ -64,16 +64,14 @@ export default function App() {
     setZitate(neueZitateData)
   }
 
-  function loadZitate() {
-    
+  async function loadZitate() {
+    const zitate = await Firebase.getZitate()
+    setZitate(zitate)
   }
 
-  function deleteZitate() {
+  function removeZitat() {
     const id = zitate[index].id
-    db.transaction((tx) => (
-      tx.executeSql('DELETE FROM zitate WHERE id = ?;', [id])
-      )
-    )
+    Firebase.removeZitat(id)
   }
 
   return (
