@@ -38,8 +38,8 @@ export default function App() {
   function removeZitatFromZitateData() {
     const neueZitateData = [...zitate]
     neueZitateData.splice(index, 1)
-    setZitate(neueZitateData)
     setIndex(0)
+    setZitate(neueZitateData)
     saveZitate(neueZitateData)
   }
 
