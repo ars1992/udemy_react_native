@@ -22,7 +22,7 @@ export default function App() {
   function setZitatContent() {
     const zitat = zitate[index]
     if (zitate.length <= 0) {
-      return <Text style={styles.keineZitate}>Keine Zitate</Text> 
+      return <Text style={styles.keineZitate}>Keine Zitate</Text>
     }
     return <Zitate text={zitat.text} autor={zitat.autor} />
   }
@@ -43,7 +43,7 @@ export default function App() {
     saveZitate(neueZitateData)
   }
 
-  function createDeleteAlert(){
+  function createDeleteAlert() {
     Alert.alert("Löschen", "Möchten Sie das Zitat löschen", [
       {
         text: "Abbrechen",
@@ -71,17 +71,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      
+      {zitate.length <= 0 ? null :
+        <Iconbutton
+          style={styles.delete}
+          onPress={() => createDeleteAlert()}
+          icon="md-remove-circle" />
+      }
 
       <Iconbutton
         style={styles.new}
         onPress={() => setShowDialog(true)}
         icon="add-circle" />
-
-      <Iconbutton
-        style={styles.delete}
-        onPress={() => createDeleteAlert()}
-        icon="md-remove-circle" />
-
 
       <NeueZitate
         visible={isShowDialog}
@@ -91,10 +92,15 @@ export default function App() {
 
       {setZitatContent()}
 
-      <Bigbutton style={[styles.button, styles.next]} titel={"next"}
-        onPress={() => setIndex((index + 1) % zitate.length)}></Bigbutton>
-      <Bigbutton style={[styles.button, styles.back]} titel={"back"}
-        onPress={() => setIndex(index == 0 ? zitate.length - 1 : index - 1)}></Bigbutton>
+      {zitate.length <= 1 ? null : (
+        <>
+          <Bigbutton style={[styles.button, styles.next]} titel={"next"}
+            onPress={() => setIndex((index + 1) % zitate.length)}></Bigbutton>
+
+          <Bigbutton style={[styles.button, styles.back]} titel={"back"}
+            onPress={() => setIndex(index == 0 ? zitate.length - 1 : index - 1)}></Bigbutton>
+        </>
+      )}
 
       <StatusBar style="auto" />
     </View>
