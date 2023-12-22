@@ -16,9 +16,11 @@ export default class Firebase {
     static dbName = "zitate"
 
     static init(){
+        
         const app = initializeApp(firebaseConfig)
         Firebase.db = getFirestore(app)
     }
+
 
     static async saveZitat(zitat, autor){
         const docRef = await addDoc(collection(Firebase.db, Firebase.dbName), {zitat, autor})

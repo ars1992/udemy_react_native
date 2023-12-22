@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import Zitate from './components/Zitate';
@@ -14,19 +14,12 @@ export default function App() {
   const [index, setIndex] = useState(0)
   const [zitate, setZitate] = useState([])
   const [isShowDialog, setShowDialog] = useState(false)
+  const [isLoad, setLoad] = useState(false)
 
   useEffect(() => {
     Firebase.init()
     loadZitate()
   }, [])
-
-  function renderZitatContent() {
-    const zitat = zitate[index]
-    if (zitate.length <= 0) {
-      return <Text style={styles.keineZitate}>Keine Zitate</Text>
-    }
-    return <Zitate text={zitat.zitat} autor={zitat.autor} />
-  }
 
   function addZitatToZitateData(zitat, autor) {
     setShowDialog(false)
@@ -44,6 +37,23 @@ export default function App() {
     removeZitat()
   }
 
+  async function saveZitat(zitat, autor, neueZitateData) {
+    const id = await Firebase.saveZitat(zitat, autor)
+    neueZitateData[neueZitateData.length - 1] = id
+    setZitate(neueZitateData)
+  }
+
+  async function loadZitate() {
+    const zitate = await Firebase.getZitate()
+    setZitate(zitate)
+    setLoad(true)
+  }
+
+  function removeZitat() {
+    const id = zitate[index].id
+    Firebase.removeZitat(id)
+  }
+
   function createDeleteAlert() {
     Alert.alert("Löschen", "Möchten Sie das Zitat löschen", [
       {
@@ -58,20 +68,20 @@ export default function App() {
     ])
   }
 
-  async function saveZitat(zitat, autor, neueZitateData) {
-    const id = await Firebase.saveZitat(zitat, autor)
-    neueZitateData[neueZitateData.length - 1] = id
-    setZitate(neueZitateData)
+  function renderZitatContent() {
+    const zitat = zitate[index]
+    if (zitate.length <= 0) {
+      return <Text style={styles.keineZitate}>Keine Zitate</Text>
+    }
+    return <Zitate text={zitat.zitat} autor={zitat.autor} />
   }
 
-  async function loadZitate() {
-    const zitate = await Firebase.getZitate()
-    setZitate(zitate)
-  }
-
-  function removeZitat() {
-    const id = zitate[index].id
-    Firebase.removeZitat(id)
+  if( ! isLoad){
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="cornflowerblue" />
+      </View>
+    )
   }
 
   return (
