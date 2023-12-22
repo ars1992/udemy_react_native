@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { addDoc, collection, getFirestore, getDocs, doc, deleteDoc } from "firebase/firestore"
 
+// in Firebase freigeben
 const firebaseConfig = {
     apiKey: "AIzaSyCpesPz-cceB5PvF_XpN4KrMlF0WqyQ-Cs",
     authDomain: "udemy-nicequotes-d6aa4.firebaseapp.com",
